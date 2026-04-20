@@ -4,10 +4,10 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button({ loading, variant = 'primary', children, className = '', ...props }: Props) {
-  const base = 'w-full py-3 px-4 rounded-xl text-base font-semibold transition active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed'
+  const base = 'w-full py-4 px-4 rounded-2xl text-base font-semibold transition active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed'
   const styles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    ghost: 'bg-transparent text-blue-600 hover:bg-blue-50',
+    primary: 'bg-purple-600 text-white hover:bg-purple-700',
+    ghost: 'bg-transparent text-purple-600 hover:bg-purple-50',
   }
 
   return (

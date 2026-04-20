@@ -58,7 +58,7 @@ export default function ProductsAdminPage() {
         {/* Top bar */}
         <div className="flex gap-3 items-center mb-4">
           <div className="relative flex-1">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -66,18 +66,17 @@ export default function ProductsAdminPage() {
               placeholder="Buscar productos..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-300 bg-white text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-4 py-2.5 rounded-full border border-purple-100 bg-purple-50 text-sm outline-none focus:ring-2 focus:ring-purple-300 focus:bg-white transition-all placeholder:text-purple-300 text-center"
             />
           </div>
           <button
             onClick={openCreate}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 active:scale-95 transition flex-shrink-0"
+            className="flex items-center gap-2 px-6 py-2.5 bg-purple-600 text-white rounded-full text-sm font-semibold hover:bg-purple-700 active:scale-95 transition flex-shrink-0 w-26 justify-center"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
-            <span className="hidden sm:inline">Nuevo producto</span>
-            <span className="sm:hidden">Nuevo</span>
+            Nuevo
           </button>
         </div>
 
@@ -190,14 +189,14 @@ function MobileProductRow({ product, onEdit, onDelete }: { product: Product; onE
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-1 justify-center">
-        <button onClick={onEdit} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" aria-label="Editar">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="flex flex-row gap-2 items-center">
+        <button onClick={onEdit} className="p-3 text-purple-600 hover:bg-purple-50 rounded-xl transition" aria-label="Editar">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
         </button>
-        <button onClick={onDelete} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition" aria-label="Eliminar">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <button onClick={onDelete} className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition" aria-label="Eliminar">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
         </button>

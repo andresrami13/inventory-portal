@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import type { Product } from '../../types/database'
 import { useCartStore } from '../../store/cart.store'
+import { toast } from '../../store/toast.store'
 
 interface Props {
   product: Product
@@ -8,19 +8,25 @@ interface Props {
 
 export default function ProductCard({ product }: Props) {
   const addItem = useCartStore((s) => s.addItem)
-  const inCart = useCartStore((s) => s.items.some((i) => i.product.id === product.id))
-  const [added, setAdded] = useState(false)
+  const cartItem = useCartStore((s) => s.items.find((i) => i.product.id === product.id))
+  const quantityInCart = cartItem?.quantity ?? 0
 
-  function handleAdd() {
+  function handleImageClick() {
+    if (product.stock === 0) return
     addItem(product)
-    setAdded(true)
-    setTimeout(() => setAdded(false), 1500)
+    toast.success(`${product.name} agregado`)
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-sm">
-      {/* Image */}
-      <div className="aspect-square bg-gray-100 overflow-hidden">
+    <div className="bg-white rounded-2xl p-1 shadow-sm border border-purple-50 flex flex-col group">
+      {/* Image — clickeable para agregar al carrito */}
+      <div
+        onClick={handleImageClick}
+        role="button"
+        aria-label={`Agregar ${product.name} al carrito`}
+        className={`relative aspect-square rounded-xl overflow-hidden bg-purple-50 transition-transform duration-200
+          ${product.stock > 0 ? 'cursor-pointer active:scale-95' : 'cursor-not-allowed opacity-60'}`}
+      >
         {product.image_url ? (
           <img
             src={product.image_url}
@@ -29,47 +35,42 @@ export default function ProductCard({ product }: Props) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-300">
+          <div className="w-full h-full flex items-center justify-center text-purple-200">
             <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V7" />
             </svg>
           </div>
         )}
+
+        {/* Badge de cantidad flotante */}
+        {quantityInCart > 0 && (
+          <div className="absolute top-3 right-3 bg-purple-600/90 backdrop-blur-sm text-white text-xl font-bold w-10 h-10 flex items-center justify-center rounded-full shadow-md border border-purple-400/30">
+            {quantityInCart}
+          </div>
+        )}
+
+        {/* Overlay de press */}
+        <div className="absolute inset-0 bg-purple-900/0 group-active:bg-purple-900/10 transition-colors pointer-events-none" />
+
+        {/* Badge sin stock */}
+        {product.stock === 0 && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm">
+            <span className="text-xs font-semibold text-red-500 bg-white px-2 py-1 rounded-full shadow-sm">
+              Sin stock
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Info */}
-      <div className="p-3 flex flex-col gap-2 flex-1">
-        <p className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">{product.name}</p>
+      <div className="pt-3 px-1 flex flex-col flex-grow">
+        <h3 className="font-semibold text-sm text-purple-900 leading-tight line-clamp-1">{product.name}</h3>
         {product.description && (
-          <p className="text-xs text-gray-500 line-clamp-2">{product.description}</p>
+          <p className="text-xs text-purple-400 mt-0.5 line-clamp-1">{product.description}</p>
         )}
-        <div className="flex items-center justify-between mt-auto pt-1">
-          <span className="text-blue-600 font-bold text-base">${product.price.toLocaleString()}</span>
-          {product.stock > 0 ? (
-            <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-              Disponible
-            </span>
-          ) : (
-            <span className="text-xs text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
-              Sin stock
-            </span>
-          )}
+        <div className="mt-auto pt-2">
+          <span className="font-bold text-sm text-purple-700">${product.price.toLocaleString()}</span>
         </div>
-
-        <button
-          onClick={handleAdd}
-          disabled={product.stock === 0}
-          className={`w-full py-2.5 rounded-xl text-sm font-semibold transition active:scale-95
-            ${added
-              ? 'bg-green-500 text-white'
-              : inCart
-              ? 'bg-blue-50 text-blue-600 border border-blue-200'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-            }
-            disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed`}
-        >
-          {added ? '✓ Agregado' : inCart ? 'Agregar otro' : 'Agregar'}
-        </button>
       </div>
     </div>
   )

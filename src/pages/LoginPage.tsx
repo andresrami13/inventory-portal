@@ -40,7 +40,7 @@ export default function LoginPage() {
 
   return (
     <AuthLayout title="Bienvenido" subtitle="Ingresa a tu cuenta para continuar">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-4 w-full text-center">
         <Input
           label="Correo electrónico"
           type="email"
@@ -69,20 +69,20 @@ export default function LoginPage() {
         </Button>
 
         <div className="text-center">
-          <Link to="/recuperar-password" className="text-sm text-blue-600 hover:underline">
+          <Link to="/recuperar-password" className="text-sm text-purple-500 hover:text-purple-700 hover:underline">
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
-      </form>
 
-      <div className="mt-5 pt-5 border-t border-gray-100 text-center">
-        <p className="text-sm text-gray-500">
-          ¿No tienes cuenta?{' '}
-          <Link to="/registro" className="text-blue-600 font-medium hover:underline">
-            Regístrate
-          </Link>
-        </p>
-      </div>
+        <div className="pt-4 border-t border-purple-100 text-center">
+          <p className="text-sm text-purple-400">
+            ¿No tienes cuenta?{' '}
+            <Link to="/registro" className="text-purple-600 font-medium hover:underline">
+              Regístrate
+            </Link>
+          </p>
+        </div>
+      </form>
     </AuthLayout>
   )
 }
